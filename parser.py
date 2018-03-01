@@ -31,4 +31,17 @@ The file follows the following format:
 See the file script for an example of the file format
 """
 def parse_file( fname, points, transform, screen, color ):
-    pass
+    while open(fname) as f:
+        commands = f.readlines()
+    commands = [line.strip() for line in commands]
+    for x in range (length(commands)):
+        if (commands[x] == "line"):
+            coordinates = commands[x+1].split()
+        if (commands[x] == "ident"):
+        if (commands[x] == "scale"):
+        if (commands[x] == "move"):
+        if (commands[x] == "rotate"):
+        if (commands[x] == "apply"):
+        if (commands[x] == "display"):
+        if (commands[x] == "save"):
+        if (commands[x] == "quit"):
