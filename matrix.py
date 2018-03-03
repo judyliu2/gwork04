@@ -1,37 +1,49 @@
 import math
 
 def make_translate( x, y, z ):
-    m = ident(new_matrix(4,4));
+    m = new_matrix(4,4)
+    ident(m)
     m[0][3] == x
     m[1][3] == y
     m[2][3] == z
+    return m
 
 def make_scale( x, y, z ):
-    m = ident(new_matrix(4,4));
+    m = new_matrix(4,4)
+    ident(m)
     m[0][0] = x
     m[1][1] = y
     m[2][2] = z
+    return m
 
 def make_rotX( theta ):    
-    m = ident(new_matrix(4,4))
-    m[1][0] = cos(theta) 
-    m[1][1] = sin(theta) * -1
-    m[2][0] = sin(theta)
-    m[2][1] = cos(theta)
+    m = new_matrix(4,4)
+    ident(m)
+    m[1][1] = math.cos(math.radians(theta))
+    m[1][2] = math.sin(math.radians(theta)) * -1
+    m[2][2] = math.cos(math.radians(theta))
+    m[2][1] = math.sin(math.radians(theta))
+    return m
+    
+
     
 def make_rotY( theta ):
-     m = ident(new_matrix(4,4))
-    m[0][0] = cos(theta) 
-    m[0][1] = sin(theta) * -1
-    m[2][0] = sin(theta)
-    m[2][1] = cos(theta)
+    m = new_matrix(4,4)
+    ident(m)
+    m[0][0] = math.cos(math.radians(theta)) 
+    m[0][2] = math.sin(math.radians(theta)) * -1
+    m[2][0] = math.sin(math.radians(theta))
+    m[2][2] = math.cos(math.radians(theta))
+    return m
     
 def make_rotZ( theta ):
-    m = ident(new_matrix(4,4))
-    m[0][0] = cos(theta)
-    m[0][1] = sin(theta) * -1
-    m[1][0] = sin(theta)
-    m[1][1] = cos(theta)
+    m = new_matrix(4,4)
+    ident(m)
+    m[0][0] = math.cos(math.radians(theta))
+    m[0][1] = math.sin(math.radians(theta)) * -1
+    m[1][0] = math.sin(math.radians(theta))
+    m[1][1] = math.cos(math.radians(theta))
+    return m
 
 def print_matrix( matrix ):
     s = ''

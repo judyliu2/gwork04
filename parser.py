@@ -34,51 +34,71 @@ def parse_file( fname, points, transform, screen, color ):
     commands = []
     f = open(fname,"rw+")
     with open (fname) as command:
-        commands = [line.strip() for line in command]
-
+        commands = [line.rstrip('\n') for line in command]
     x = 0;
-    while (x < length(commmands)):
+    while (x < len(commands)):
         
         if (commands[x] == "line"):
-            coordinates = commands[x+1].split()
-            add_edge(point, int(commands[0]), int(commands[1]),int(commands[2]),int(commands[3]),int(commands[4]),int(commands[5]))
+            coordinates = commands[x+1].split(" ")
+            add_edge(points, int(coordinates[0]),int(coordinates[1]),int(coordinates[2]),int(coordinates[3]),int(coordinates[4]),int(coordinates[5]))
             x += 2
+          
             
-        if (commands[x] == "ident"):
+        elif (commands[x] == "ident"):
             ident(transform)
-            x++
+            x+=1
+           
             
-        if (commands[x] == "scale"):
-            scale = commands[x+1].split()
-            make_scale(scale[0], scale[1], scale[2])
+        elif (commands[x] == "scale"):
+            scale = commands[x+1].split(" ")
+            change = make_scale(float(scale[0]), float(scale[1]), float(scale[2]))
+            matrix_mult(change,transform)
             x+=2
-            
-        if (commands[x] == "move"):
-            move = commands[x+1].split()
-            make_translate(move[0], move[1], move[2])
+        
+        
+        elif (commands[x] == "move"):
+            move = commands[x+1].split(" ")
+            moves =make_translate(move[0], move[1], move[2])
+            matrix_mult(moves,transform)
             x+=2
+           
             
-        if (commands[x] == "rotate"):
-            rotation = commands[x+1].split()
+        elif (commands[x] == "rotate"):
+            rotation = commands[x+1].split(" ")
             if (rotation[0] == "x"):
-                 make_rotx(rotation[1])
-            if (rotation[1] == "y"):
-                make_roty(rotation[1])
-            if (rotation[2] == "z"):
-                make_rotz(rotation[1])
+                degree = make_rotX(int(rotation[1]))
+            elif (rotation[0] == "y"):
+                degree = make_rotY(int(rotation[1]))
+            else:
+                degree = make_rotZ(int(rotation[1]))
+            matrix_mult(degree,transform)
             x+=2
+           
+        elif (commands[x] == "apply"):
+            matrix_mult(transform, points)
+            x+=1
+    
+        elif (commands[x] == "display"):
+            for r in range(len(points)):
+                for c in range(4):
+                    points[r][c] = int(points[r][c])
+            clear_screen(screen)
+            draw_lines(points,screen,color)
+          
+            x+=1
             
-        if (commands[x] == "apply"):
-            matrix_multiply(transform, points)
-            x++
             
-        if (commands[x] == "display"):
-            display(screen)
-            x++
+        elif (commands[x] == "save"):
+            coordinates = commands[x+1].split(" ")
+            save_extension(screen, coordinates[0])
+            x+=1
             
-        if (commands[x] == "save"):
-            save_extension(screen, fname)
-            x++
             
-        if (commands[x] == "quit"):
+        elif (commands[x] == "end"):
             break
+    
+        else:
+            x+=1
+            
+
+    print "done"
