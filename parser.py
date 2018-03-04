@@ -94,7 +94,7 @@ def parse_file( fname, points, transform, screen, color ):
             x+=1
             
             
-        elif (commands[x] == "end"):
+        elif (commands[x] == "quit"):
             break
     
         else:
