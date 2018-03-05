@@ -58,8 +58,9 @@ def parse_file( fname, points, transform, screen, color ):
         
         elif (commands[x] == "move"):
             move = commands[x+1].split(" ")
-            moves =make_translate(move[0], move[1], move[2])
+            moves = make_translate(int(move[0]), int(move[1]), int(move[2]))
             matrix_mult(moves,transform)
+            print_matrix(moves)
             x+=2
            
             
@@ -67,10 +68,13 @@ def parse_file( fname, points, transform, screen, color ):
             rotation = commands[x+1].split(" ")
             if (rotation[0] == "x"):
                 degree = make_rotX(int(rotation[1]))
+               
             elif (rotation[0] == "y"):
                 degree = make_rotY(int(rotation[1]))
+                
             else:
                 degree = make_rotZ(int(rotation[1]))
+            
             matrix_mult(degree,transform)
             x+=2
            
@@ -84,7 +88,7 @@ def parse_file( fname, points, transform, screen, color ):
                     points[r][c] = int(points[r][c])
             clear_screen(screen)
             draw_lines(points,screen,color)
-          
+            display(screen)
             x+=1
             
             
